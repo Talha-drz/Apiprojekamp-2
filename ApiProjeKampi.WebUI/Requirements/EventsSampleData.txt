@@ -1,0 +1,37 @@
+﻿		[
+  {
+    "title": "Doğum Günü Organizasyonu",
+    "description": "Sevdiklerinizle birlikte özel süsleme, kişiye özel pasta ve canlı müzik eşliğinde unutulmaz bir doğum günü kutlaması.",
+    "imageUrl": "test",
+    "status": true,
+    "price": 4500
+  },
+  {
+    "title": "Toplantı ve İş Yemekleri",
+    "description": "Şirket toplantıları ve iş yemekleri için sessiz alan, projeksiyon desteği ve özel menü seçenekleri sunulmaktadır.",
+    "imageUrl": "test",
+    "status": true,
+    "price": 6000
+  },
+  {
+    "title": "Nişan ve Söz Organizasyonu",
+    "description": "Şık masa düzeni, süsleme ve özel menülerle nişan ve söz organizasyonlarınızı profesyonel şekilde gerçekleştiriyoruz.",
+    "imageUrl": "test",
+    "status": true,
+    "price": 12000
+  },
+  {
+    "title": "Özel Gün ve Yıldönümü Kutlamaları",
+    "description": "Evlilik yıldönümü ve özel günler için romantik ambiyans, mum ışığı ve kişiye özel servis seçenekleri.",
+    "imageUrl": "test",
+    "status": true,
+    "price": 3500
+  },
+  {
+    "title": "Grup ve Tur Yemekleri",
+    "description": "Kalabalık gruplar ve tur organizasyonları için hızlı servis, sabit menü ve uygun fiyatlı çözümler.",
+    "imageUrl": "test",
+    "status": true,
+    "price": 8000
+  }
+]

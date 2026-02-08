@@ -1,0 +1,82 @@
+﻿																 [
+  {
+    "nameSurname": "Ahmet Yılmaz",
+    "email": "ahmet.yilmaz@gmail.com",
+    "subject": "Rezervasyon Talebi",
+    "messageDetails": "Bu cumartesi akşamı 4 kişilik bir masa ayırtmak istiyorum. Müsaitlik durumunu öğrenebilir miyim?",
+    "sendDate": "2026-01-05",
+    "isRead": true
+  },
+  {
+    "nameSurname": "Elif Demir",
+    "email": "elif.demir@hotmail.com",
+    "subject": "Menü Hakkında Bilgi",
+    "messageDetails": "Vejetaryen menü seçenekleriniz var mı? Varsa detaylı bilgi alabilir miyim?",
+    "sendDate": "2026-01-05",
+    "isRead": true
+  },
+  {
+    "nameSurname": "Mehmet Kaya",
+    "email": "mehmet.kaya@yahoo.com",
+    "subject": "Doğum Günü Organizasyonu",
+    "messageDetails": "Doğum günü için özel bir organizasyon yapıyor musunuz? Kişi sayısı 10 olacak.",
+    "sendDate": "2026-01-06",
+    "isRead": false
+  },
+  {
+    "nameSurname": "Zeynep Arslan",
+    "email": "zeynep.arslan@gmail.com",
+    "subject": "Şikayet",
+    "messageDetails": "Geçen hafta servis biraz yavaştı, bu konuda geri bildirim vermek istedim.",
+    "sendDate": "2026-01-06",
+    "isRead": true
+  },
+  {
+    "nameSurname": "Burak Çetin",
+    "email": "burak.cetin@gmail.com",
+    "subject": "Paket Servis",
+    "messageDetails": "Paket servis saatleriniz ve minimum sipariş tutarı hakkında bilgi alabilir miyim?",
+    "sendDate": "2026-01-07",
+    "isRead": false
+  },
+  {
+    "nameSurname": "Ayşe Koç",
+    "email": "ayse.koc@hotmail.com",
+    "subject": "Fiyat Bilgisi",
+    "messageDetails": "Kişi başı ortalama menü fiyatlarınız hakkında bilgi rica ediyorum.",
+    "sendDate": "2026-01-07",
+    "isRead": true
+  },
+  {
+    "nameSurname": "Murat Şahin",
+    "email": "murat.sahin@gmail.com",
+    "subject": "Rezervasyon İptali",
+    "messageDetails": "Yarın akşam için yaptırdığım rezervasyonu iptal etmek istiyorum.",
+    "sendDate": "2026-01-07",
+    "isRead": false
+  },
+  {
+    "nameSurname": "Selin Aksoy",
+    "email": "selin.aksoy@yahoo.com",
+    "subject": "Canlı Müzik",
+    "messageDetails": "Hafta sonları canlı müzik oluyor mu? Oluyorsa hangi günler?",
+    "sendDate": "2026-01-08",
+    "isRead": true
+  },
+  {
+    "nameSurname": "Emre Polat",
+    "email": "emre.polat@gmail.com",
+    "subject": "Çocuk Menüsü",
+    "messageDetails": "Çocuklar için özel menünüz bulunuyor mu?",
+    "sendDate": "2026-01-08",
+    "isRead": false
+  },
+  {
+    "nameSurname": "Derya Tunç",
+    "email": "derya.tunc@hotmail.com",
+    "subject": "Teşekkür",
+    "messageDetails": "Dün akşamki ilginiz ve lezzetli yemekler için teşekkür ederim.",
+    "sendDate": "2026-01-09",
+    "isRead": true
+  }
+]

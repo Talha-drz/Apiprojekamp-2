@@ -1,0 +1,32 @@
+﻿[
+  {
+    "nameSurname": "Ahmet Yılmaz",
+    "title": "Gıda Mühendisi",
+    "comment": "Yemeklerin lezzeti ve sunumu gerçekten harikaydı. Özellikle et yemekleri çok başarılı, tekrar gelmeyi kesinlikle düşünüyorum.",
+    "imageUrl": "test"
+  },
+  {
+    "nameSurname": "Elif Karaca",
+    "title": "Blog Yazarı",
+    "comment": "Ambiyans çok sıcak ve çalışanlar son derece ilgiliydi. Tatlıları denemenizi özellikle tavsiye ederim.",
+    "imageUrl": "test"
+  },
+  {
+    "nameSurname": "Mehmet Demir",
+    "title": "İşletmeci",
+    "comment": "Uzun zamandır bu kadar kaliteli hizmet aldığım bir restoran olmamıştı. Fiyat performans açısından da oldukça başarılı.",
+    "imageUrl": "test"
+  },
+  {
+    "nameSurname": "Zeynep Aydın",
+    "title": "Mimar",
+    "comment": "Mekan tasarımı ve yemeklerin uyumu çok hoşuma gitti. Hem göze hem damağa hitap eden bir yer.",
+    "imageUrl": "test"
+  },
+  {
+    "nameSurname": "Can Öztürk",
+    "title": "Yazılım Geliştirici",
+    "comment": "Hızlı servis, temiz bir ortam ve lezzetli yemekler. Özellikle öğle araları için ideal bir restoran.",
+    "imageUrl": "test"
+  }
+]

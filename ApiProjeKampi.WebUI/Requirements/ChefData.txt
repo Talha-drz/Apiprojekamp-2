@@ -1,0 +1,21 @@
+﻿[
+  {
+    "nameSurname": "Mehmet Aksoy",
+    "title": "Baş Şef",
+    "description": "Geleneksel Türk mutfağını modern dokunuşlarla sunan, 15 yılı aşkın mutfak deneyimine sahip baş şefimizdir.",
+    "imageUrl": "test"
+  },
+  {
+    "nameSurname": "Ayşe Demir",
+    "title": "Sous Chef",
+    "description": "Et ve deniz ürünleri konusunda uzmanlaşmış, sunum ve lezzet dengesine önem veren yardımcı şefimizdir.",
+    "imageUrl": "test"
+  },
+  {
+    "nameSurname": "Caner Yıldız",
+    "title": "Tatlı ve Pastane Şefi",
+    "description": "Özel tatlılar ve imza pastalar hazırlayan, menümüze özgün tatlar kazandıran pastane şefimizdir.",
+    "imageUrl": "test"
+  }
+]
+    /yummy-red-1.0.0/assets/img/chefs/chefs-1.jpg

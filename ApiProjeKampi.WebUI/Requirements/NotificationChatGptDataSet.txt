@@ -1,0 +1,32 @@
+﻿[
+  {
+    "description": "Rezervasyonunuz başarıyla alınmıştır.",
+    "iconUrl": "https://example.com/icons/reservation.png",
+    "notificationDate": "2026-01-26T14:20:00.000Z",
+    "isRead": true
+  },
+  {
+    "description": "Bugün için masa rezervasyonunuz bulunmaktadır.",
+    "iconUrl": "https://example.com/icons/table.png",
+    "notificationDate": "2026-01-27T08:00:00.000Z",
+    "isRead": false
+  },
+  {
+    "description": "Yeni kampanya: Tüm ana yemeklerde %20 indirim.",
+    "iconUrl": "https://example.com/icons/discount.png",
+    "notificationDate": "2026-01-25T18:30:00.000Z",
+    "isRead": false
+  },
+  {
+    "description": "Siparişiniz hazırlanıyor.",
+    "iconUrl": "https://example.com/icons/order.png",
+    "notificationDate": "2026-01-27T09:45:00.000Z",
+    "isRead": true
+  },
+  {
+    "description": "Değerlendirmeniz için teşekkür ederiz.",
+    "iconUrl": "https://example.com/icons/review.png",
+    "notificationDate": "2026-01-24T12:10:00.000Z",
+    "isRead": true
+  }
+]
