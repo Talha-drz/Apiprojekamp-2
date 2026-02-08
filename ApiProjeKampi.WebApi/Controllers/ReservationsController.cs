@@ -9,7 +9,7 @@ namespace ApiProjeKampi.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReservationsController : ControllerBase
+    public class ReservationsController : ControllerBase     
     {
         private readonly ApiContext _context;
         private readonly IMapper _mapper;
