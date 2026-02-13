@@ -27,7 +27,7 @@ namespace ApiProjeKampi.WebUI.Controllers
             }
 
             return View();
-        }
+        }                                 
 
         [HttpGet]
         public IActionResult CreateCategory()
