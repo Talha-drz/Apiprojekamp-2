@@ -89,8 +89,22 @@ namespace ApiProjeKampi.WebUI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateImageDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            await client.PutAsync("https://localhost:7058/api/Images/", stringContent);
-            return RedirectToAction("ImageListWithEdit");
+
+            var responseMessage = await client.PutAsync("https://localhost:7058/api/Images/", stringContent);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("ImageListWithEdit");
+            }
+            var responseContent = await responseMessage.Content.ReadAsStringAsync();
+
+            // ViewBag'e tüm bilgileri koy
+            ViewBag.StatusCode = (int)responseMessage.StatusCode;
+            ViewBag.Reason = responseMessage.ReasonPhrase;
+            ViewBag.Content = responseContent;
+
+            // Hata sayfasını veya aynı view'i dönebilirsin
+            return View();
         }
     }
 }

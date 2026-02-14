@@ -49,8 +49,8 @@ namespace ApiProjeKampi.WebApi.Controllers
         [HttpPut]
         public IActionResult UpdateImage(UpdateImageDto updateImageDto)
         {
-            var value = _mapper.Map<About>(updateImageDto);
-            _context.Abouts.Update(value);
+            var value = _mapper.Map<Image>(updateImageDto);
+            _context.Images.Update(value);
             _context.SaveChanges();
             return Ok("Görsel güncelleme işlemi başarılı");
         }
