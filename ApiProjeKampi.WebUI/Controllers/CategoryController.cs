@@ -1,10 +1,12 @@
 ﻿using ApiProjeKampi.WebUI.Dtos.CategoryDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace ApiProjeKampi.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -22,7 +24,7 @@ namespace ApiProjeKampi.WebUI.Controllers
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData);
+                var values = JsonConvert.DeserializeObject<List<ResultCategoryWithProductCountDto>>(jsonData);
                 return View(values);
             }
 
@@ -76,6 +78,15 @@ namespace ApiProjeKampi.WebUI.Controllers
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
             await client.PutAsync("https://localhost:7058/api/Categories/",stringContent);
             return RedirectToAction("CategoryList");
+        }
+        [HttpGet]
+        public async Task <IActionResult> ViewCategory(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:7058/api/Categories/GetCategory?id=" + id);
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            var value = JsonConvert.DeserializeObject<GetCategoryByIdDto>(jsonData);
+            return View(value);
         }
     }
 }

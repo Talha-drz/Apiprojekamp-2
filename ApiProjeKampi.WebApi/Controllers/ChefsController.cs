@@ -1,5 +1,7 @@
 ﻿using ApiProjeKampi.WebApi.Context;
+using ApiProjeKampi.WebApi.Dtos.ChefDtos;
 using ApiProjeKampi.WebApi.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Contracts;
@@ -11,11 +13,13 @@ namespace ApiProjeKampi.WebApi.Controllers
     public class ChefsController : ControllerBase
     {
         private readonly ApiContext _context;
-
-        public ChefsController(ApiContext context)
+        private readonly IMapper _mapper;
+        public ChefsController(ApiContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
+      
         [HttpGet]
         public IActionResult ChefList()
         {
@@ -23,9 +27,10 @@ namespace ApiProjeKampi.WebApi.Controllers
             return Ok(Values);
         }
         [HttpPost]
-        public IActionResult CreateChef(Chef chef)
+        public IActionResult CreateChef(CreateChefDto chef)
         {
-            _context.Chefs.Add(chef);
+            var value = _mapper.Map<Chef>(chef);
+            _context.Chefs.Add(value);
             _context.SaveChanges();
             return Ok("Şef sisteme Başarılı Eklendi");
         }
@@ -44,9 +49,10 @@ namespace ApiProjeKampi.WebApi.Controllers
             return Ok(_context.Chefs.Find(id));
         }
         [HttpPut]
-        public IActionResult UpdateChef(Chef chef)
+        public IActionResult UpdateChef(GetChefByIdDto chef)
         {
-            _context.Chefs.Update(chef);
+            var value = _mapper.Map<Chef>(chef);
+            _context.Chefs.Update(value);
             _context.SaveChanges();
             return Ok("Şef Güncelleme İşlemi Başarılı");
         }

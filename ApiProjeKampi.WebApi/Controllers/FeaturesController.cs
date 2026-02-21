@@ -45,7 +45,7 @@ namespace ApiProjeKampi.WebApi.Controllers
         public IActionResult GetFeature(int id)
         {
             var value = _context.Features.Find(id);
-            return Ok(_mapper.Map<GetByIdFeatureDto>(value));
+            return Ok(_mapper.Map<GetFeatureByIdDto>(value));
         }
         [HttpPut]
         public IActionResult UpdateFeature(UpdateFeatureDto updateFeatureDto)

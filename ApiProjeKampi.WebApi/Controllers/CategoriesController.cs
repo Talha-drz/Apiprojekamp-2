@@ -4,6 +4,7 @@ using ApiProjeKampi.WebApi.Dtos.ContactDtos;
 using ApiProjeKampi.WebApi.Dtos.FeatureDtos;
 using ApiProjeKampi.WebApi.Entities;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace ApiProjeKampi.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class CategoriesController : ControllerBase
     {
         private readonly ApiContext _context;
@@ -24,7 +26,18 @@ namespace ApiProjeKampi.WebApi.Controllers
         public IActionResult CategoryList()
         {
             var list = _context.Categories.ToList();
-            return Ok(list);
+            var result = _context.Categories
+      .Select(c => new
+      {
+          c.CategoryId,
+          c.CategoryName,
+          NumberProducts = c.Products.Count()
+      })
+      .ToList();
+
+            return Ok(result);
+
+            
         }
         [HttpPost]
         public IActionResult CreateCategory(CreateCategoryDto createCategoryDto)

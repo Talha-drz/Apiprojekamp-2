@@ -110,5 +110,19 @@ namespace ApiProjeKampi.WebApi.Controllers
 
             return Ok(result);
         }
+        [HttpPost("Onay")]
+        public IActionResult AcceptReservation(string onay,int id)
+        {
+            var value = _context.Reservations.Find(id);
+            if (onay == "Yes")
+                value.ReservationStatus = "Onaylandı";
+            else if(onay == "No")
+                value.ReservationStatus = "İptal Edildi"; 
+            else if(onay =="Bek")
+                value.ReservationStatus = "Onay Bekliyor";  
+            _context.SaveChanges();
+
+            return Ok(value);
+        }
     }
 }

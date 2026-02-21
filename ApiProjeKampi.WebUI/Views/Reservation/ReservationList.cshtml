@@ -273,18 +273,42 @@
                                             </td>
                                             <td>
                                                 <div class="action-buttons" style="justify-content: center;">
-                                                    <a href="/Reservation/AcceptReservation/@item.ReservationId/" class="modern-btn btn-approve" title="Onayla">
-                                                        <i class="fas fa-check"></i>
-                                                        Onayla
-                                                    </a>
-                                                    <a href="/Reservation/WaitReservation/@item.ReservationId/" class="modern-btn btn-wait" title="Beklet">
-                                                        <i class="fas fa-pause"></i>
-                                                        Beklet
-                                                    </a>
-                                                    <a href="/Reservation/CancelReservation/@item.ReservationId/" class="modern-btn btn-cancel" title="İptal Et">
-                                                        <i class="fas fa-ban"></i>
-                                                        İptal Et
-                                                    </a>
+                                                    <form asp-controller="Reservation"
+                                                          asp-action="AcceptReservation"
+                                                          method="post"
+                                                          style="display:inline;">
+
+                                                        <input type="hidden" name="id" value="@item.ReservationId" />
+
+                                                        <button type="submit" class="modern-btn btn-approve" title="Onayla">
+                                                            <i class="fas fa-check"></i>
+                                                            Onayla
+                                                        </button>
+                                                    </form>
+                                                    <form asp-controller="Reservation"
+                                                          asp-action="WaitReservation"
+                                                          method="post"
+                                                          style="display:inline;">
+
+                                                        <input type="hidden" name="id" value="@item.ReservationId" />
+
+                                                        <button type="submit" class="modern-btn btn-wait" title="Beklet">
+                                                            <i class="fas fa-pause"></i>
+                                                            Beklet
+                                                        </button>
+                                                    </form>
+                                                    <form asp-controller="Reservation"
+                                                          asp-action="CancelReservation"
+                                                          method="post"
+                                                          style="display:inline;">
+
+                                                        <input type="hidden" name="id" value="@item.ReservationId" />
+
+                                                        <button type="submit" class="modern-btn btn-cancel" title="İptal Et">
+                                                            <i class="fas fa-ban"></i>
+                                                            İptal Et
+                                                        </button>
+                                                    </form>
                                                     <a href="/Reservation/UpdateReservation/@item.ReservationId/" class="modern-btn btn-edit" title="Düzenle">
                                                         <i class="fas fa-edit"></i>
                                                         Düzenle

@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "PassvordAl";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gmail Gönder</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #4e73df, #1cc88a);
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            width: 350px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4e73df;
+            box-shadow: 0 0 5px rgba(78,115,223,0.4);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #4e73df;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #2e59d9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Şifre Gönder</h2>
+
+        <form method="post" action="/Login/PassvordAl">
+            <input type="email"
+                   name="email"
+                   placeholder="ornek@gmail.com"
+                 
+                   required />
+
+            <button type="submit">Gönder</button>
+        </form>
+    </div>
+
+</body>
+</html>

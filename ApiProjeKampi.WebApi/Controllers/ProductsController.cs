@@ -22,6 +22,7 @@ namespace ApiProjeKampi.WebApi.Controllers
             _context = context;
             _mapper = mapper;
         }
+      
         [HttpGet]
         public IActionResult ProductList()
         {
@@ -58,19 +59,13 @@ namespace ApiProjeKampi.WebApi.Controllers
             return Ok(value);
         }
         [HttpPut]
-        public IActionResult UpdateProduct(Product product)
+        public IActionResult UpdateProduct(UpdateProductDto product)
         {
-            var validationResult = _validator.Validate(product);
-            if (!validationResult.IsValid)
-            {
-                return BadRequest(validationResult.Errors.Select(x => x.ErrorMessage));
-            }
-            else
-            {
-                _context.Products.Update(product);
-                _context.SaveChanges();
-                return Ok("Ürün güncelleme İşlemi Başarılı");
-            }
+            var value = _mapper.Map<Product>(product);
+            _context.Products.Update(value);
+            _context.SaveChanges();
+            return Ok(" güncelleme işlemi başarılı");
+        
         }
         [HttpPost("CreateProductWithCategory")]
         public IActionResult CreateProductWithCategory(CreateProductDto createProductDto)

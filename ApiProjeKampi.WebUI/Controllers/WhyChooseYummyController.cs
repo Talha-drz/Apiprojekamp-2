@@ -1,11 +1,14 @@
-﻿using ApiProjeKampi.WebUI.Dtos.ServiceDtos;
+﻿using ApiProjeKampi.WebUI.Dtos.CategoryDtos;
+using ApiProjeKampi.WebUI.Dtos.ServiceDtos;
 using ApiProjeKampi.WebUI.Dtos.WhyChooseYummyDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace ApiProjeKampi.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class WhyChooseYummyController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -77,6 +80,15 @@ namespace ApiProjeKampi.WebUI.Controllers
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
             await client.PutAsync("https://localhost:7058/api/Services/", stringContent);
             return RedirectToAction("WhyChooseYummyList");
+        }
+        [HttpGet]
+        public async Task<IActionResult> ViewWhyChooseYummy(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:7058/api/Services/GetService?id=" + id);
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            var value = JsonConvert.DeserializeObject<GetWhyChooseYummyByIdDto>(jsonData);
+            return View(value);
         }
     }
 }

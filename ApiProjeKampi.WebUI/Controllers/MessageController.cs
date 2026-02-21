@@ -1,21 +1,26 @@
-﻿using ApiProjeKampi.WebUI.Dtos.MessageDtos;
+﻿using ApiProjeKampi.WebApi.Context;
+using ApiProjeKampi.WebUI.Dtos.MessageDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Text.Json;
 using static ApiProjeKampi.WebUI.Controllers.AIController;
 
 namespace ApiProjeKampi.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MessageController : Controller
     {
-
         private readonly IHttpClientFactory _httpClientFactory;
 
         public MessageController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
+       
         }
 
         public async Task<IActionResult> MessageList()
@@ -32,7 +37,7 @@ namespace ApiProjeKampi.WebUI.Controllers
 
             return View();
         }
-
+                                                
         [HttpGet]
         public IActionResult CreateMessage()
         {
@@ -198,6 +203,30 @@ namespace ApiProjeKampi.WebUI.Controllers
             }
 
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendAnswerMail(int MessageId, string answerAI)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:7058/api/Messages/GetMessage?id=" + MessageId);
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            var value = JsonConvert.DeserializeObject<GetMessageByIdDto>(jsonData);
+            var email = value.Email;
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress("talhadurmaz175@gmail.com");
+            mail.To.Add(email);
+            mail.Subject = "Yummy Restorant - Mesajınıza Cevap";
+            mail.Body = answerAI;
+            mail.IsBodyHtml = false;
+
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.Credentials = new NetworkCredential("talhadurmaz175@gmail.com", "");
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
+
+            return RedirectToAction("MessageList");
         }
     }
 }

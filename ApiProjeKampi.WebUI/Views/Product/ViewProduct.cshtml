@@ -1,0 +1,43 @@
+﻿@model GetProductByIdDto
+
+@{
+    ViewData["Title"] = "ViewProduct";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+
+
+<section class="section">
+    <div class="section-body">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Kategori Sayfası</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <input type="hidden" asp-for="ProductId" />
+                            <label>Ürün Adı</label>
+                            <label class="form-control" style="background-color: #e9ecef;">@Model.ProductName</label>
+                            <br />
+                            <label>Ürün Açıklaması</label>
+                            <label class="form-control" style="background-color: #e9ecef;">@Model.ProductDescription</label>
+                            <br />
+                            <label>Ürün Fiyatı</label>
+                            <label class="form-control" style="background-color: #e9ecef;">@Model.Price</label>
+                            <br />
+                            <label>Ürün Resim URL</label>
+                            <label class="form-control" style="background-color: #e9ecef;">@Model.ImageUrl</label>
+                            <br />
+                            <label>Kategori</label>
+                            <input type="text" value="@ViewBag.CategoryName"
+                                   class="form-control" readonly />
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

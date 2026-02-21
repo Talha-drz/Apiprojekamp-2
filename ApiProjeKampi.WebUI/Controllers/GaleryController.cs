@@ -1,21 +1,24 @@
 ﻿using ApiProjeKampi.WebUI.Dtos.ImageDtos;
 using ApiProjeKampi.WebUI.Dtos.ImageDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace ApiProjeKampi.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class GaleryController : Controller
     {
 
         private readonly IHttpClientFactory _httpClientFactory;
-
+        
         public GaleryController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
 
+       
         public async Task <IActionResult> ImageList()
         {
             var client = _httpClientFactory.CreateClient();

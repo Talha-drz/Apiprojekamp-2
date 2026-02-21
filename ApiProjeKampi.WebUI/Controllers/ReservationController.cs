@@ -1,10 +1,12 @@
 ﻿using ApiProjeKampi.WebUI.Dtos.ReservationDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace ApiProjeKampi.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ReservationController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -75,6 +77,36 @@ namespace ApiProjeKampi.WebUI.Controllers
             var jsonData = JsonConvert.SerializeObject(updateReservationDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
             await client.PutAsync("https://localhost:7058/api/Reservations/", stringContent);
+            return RedirectToAction("ReservationList");
+        }
+        [HttpPost]
+        public async Task<IActionResult> AcceptReservation(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.PostAsync(
+                $"https://localhost:7058/api/Reservations/Onay?onay=Yes&id={id}",
+                null
+            );
+            return RedirectToAction("ReservationList");
+        }
+        [HttpPost]
+        public async Task<IActionResult> WaitReservation(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.PostAsync(
+                $"https://localhost:7058/api/Reservations/Onay?onay=Bek&id={id}",
+                null
+            );
+            return RedirectToAction("ReservationList");
+        }
+        [HttpPost]
+        public async Task<IActionResult> CancelReservation(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.PostAsync(
+                $"https://localhost:7058/api/Reservations/Onay?onay=No&id={id}",
+                null
+            );
             return RedirectToAction("ReservationList");
         }
     }

@@ -1,0 +1,59 @@
+﻿@model GetFeatureByIdDto
+
+@{
+    ViewData["Title"] = "ViewFeature";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="section">
+    <div class="section-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Feature Detay Sayfası</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <input type="hidden" asp-for="FeatureId" />
+
+                            <div class="form-group">
+                                <label>Başlık</label>
+                                <input type="text" asp-for="Title" class="form-control" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Alt Başlık</label>
+                                <input type="text" asp-for="SubTitle" class="form-control" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Açıklama</label>
+                                <textarea asp-for="Description" class="form-control" rows="3" readonly></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Video Url</label>
+                                <input type="text" asp-for="VideoUrl" class="form-control" readonly />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Resim Url</label>
+                                <input type="text" asp-for="ImageUrl" class="form-control" readonly />
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                            {
+                                <div class="form-group mt-3">
+                                    <label>Resim Önizleme</label><br />
+                                    <img src="@Model.ImageUrl" style="max-width:300px; border-radius:8px;" />
+                                </div>
+                            }
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

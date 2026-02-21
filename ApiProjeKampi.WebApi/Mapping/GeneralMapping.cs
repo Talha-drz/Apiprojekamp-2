@@ -1,5 +1,6 @@
 ﻿using ApiProjeKampi.WebApi.Dtos.AboutDtos;
 using ApiProjeKampi.WebApi.Dtos.CategoryDtos;
+using ApiProjeKampi.WebApi.Dtos.ChefDtos;
 using ApiProjeKampi.WebApi.Dtos.FeatureDtos;
 using ApiProjeKampi.WebApi.Dtos.GroupReservationDtos;
 using ApiProjeKampi.WebApi.Dtos.ImageDtos;
@@ -18,7 +19,10 @@ namespace ApiProjeKampi.WebApi.Mapping
             CreateMap<Feature, ResultFeatureDto>().ReverseMap(); 
             CreateMap<Feature, CreateFeatureDto>().ReverseMap(); 
             CreateMap<Feature, UpdateFeatureDto>().ReverseMap(); 
-            CreateMap<Feature, GetByIdFeatureDto>().ReverseMap();
+            CreateMap<Feature, GetFeatureByIdDto>().ReverseMap();
+           
+            CreateMap<Chef, GetChefByIdDto>().ReverseMap();
+            CreateMap<Chef, CreateChefDto>().ReverseMap();
             
 
             CreateMap<Message, ResultMessageDto>().ReverseMap(); 
@@ -27,6 +31,7 @@ namespace ApiProjeKampi.WebApi.Mapping
             CreateMap<Message, GetByIdMessageDto>().ReverseMap();
 
             CreateMap<Product, CreateProductDto>().ReverseMap();
+            CreateMap<Product, UpdateProductDto>().ReverseMap();
             CreateMap<Product, ResultProductWithCategoryDto>().ForMember(x => x.CategoryName, y => y.MapFrom(z => z.category.CategoryName)).ReverseMap();
 
                CreateMap<Notification,ResultNotificationDto>().ReverseMap();

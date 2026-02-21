@@ -1,10 +1,13 @@
-﻿using ApiProjeKampi.WebUI.Dtos.FeatureDtos;
+﻿using ApiProjeKampi.WebUI.Dtos.CategoryDtos;
+using ApiProjeKampi.WebUI.Dtos.FeatureDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace ApiProjeKampi.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class FeatureController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -76,6 +79,15 @@ namespace ApiProjeKampi.WebUI.Controllers
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
             await client.PutAsync("https://localhost:7058/api/Features/", stringContent);
             return RedirectToAction("FeatureList");
+        }
+        [HttpGet]
+        public async Task<IActionResult> ViewFeature(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:7058/api/Features/GetFeature?id=" + id);
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            var value = JsonConvert.DeserializeObject<GetFeatureByIdDto>(jsonData);
+            return View(value);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model List<ResultCategoryDto>
+﻿@model List<ResultCategoryWithProductCountDto>
 @{
     ViewData["Title"] = "CategoryList";
     Layout = "~/Views/AdminLayout/Index.cshtml";
@@ -176,7 +176,7 @@
                                             </td>
                                             <td>
                                                 <span class="stats-badge">
-                                                    <i class="fas fa-box"></i> @Random.Shared.Next(5, 50) ürün
+                                                    <i class="fas fa-box"></i> @item.NumberProducts ürün
                                                 </span>
                                             </td>
                                             <td class="text-center">

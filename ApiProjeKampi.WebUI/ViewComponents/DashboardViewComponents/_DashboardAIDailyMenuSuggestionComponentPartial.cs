@@ -23,7 +23,7 @@ namespace ApiProjeKampi.WebUI.ViewComponents.DashboardViewComponents
             var openAiClient = _httpClientFactory.CreateClient();
             openAiClient.BaseAddress = new Uri("https://api.openai.com/");
             openAiClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", OPENAI_API_KEY);
+                new AuthenticationHeaderValue("Bearer", OPENAI_APIKEY);
 
 
             string prompt = @" 
