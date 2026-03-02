@@ -1,4 +1,5 @@
-﻿using ApiProjeKampi.WebUI.Dtos.CategoryDtos;
+﻿using ApiProjeKampi.WebUI.Dtos.ApiSettings;
+using ApiProjeKampi.WebUI.Dtos.CategoryDtos;
 using ApiProjeKampi.WebUI.Dtos.TestimonialDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +12,18 @@ namespace ApiProjeKampi.WebUI.Controllers
     public class TestimonialController : Controller
     {
       private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ApiSettings _apiSettings;
 
-        public TestimonialController(IHttpClientFactory httpClientFactory)
+        public TestimonialController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> TestimonialList()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Testimonials");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl +"/api/Testimonials");
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -45,7 +48,7 @@ namespace ApiProjeKampi.WebUI.Controllers
             var jsonData = JsonConvert.SerializeObject(createTestimonialDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            var responseMessage = await client.PostAsync("https://localhost:7058/api/Testimonials", stringContent);
+            var responseMessage = await client.PostAsync(_apiSettings.BaseUrl +"/api/Testimonials", stringContent);
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -58,7 +61,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task<IActionResult> DeleteTestimonial(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            await client.DeleteAsync("https://localhost:7058/api/Testimonials?id=" + id);
+            await client.DeleteAsync(_apiSettings.BaseUrl +"/api/Testimonials?id=" + id);
             return RedirectToAction("TestimonialList");
         }
 
@@ -66,7 +69,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task<IActionResult> UpdateTestimonial(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Testimonials/GetTestimonial?id=" + id);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl +"/api/Testimonials/GetTestimonial?id=" + id);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetTestimonialByIdDto>(jsonData);
             return View(value);
@@ -77,14 +80,15 @@ namespace ApiProjeKampi.WebUI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateTestimonialDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            await client.PutAsync("https://localhost:7058/api/Testimonials/",stringContent);
+            await client.PutAsync(_apiSettings.BaseUrl +"/api/Testimonials/",stringContent);
             return RedirectToAction("TestimonialList");
         }
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> ViewTestimonial(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Testimonials/GetTestimonial?id=" + id);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl +"/api/Testimonials/GetTestimonial?id=" + id);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetTestimonialByIdDto>(jsonData);
             return View(value);

@@ -1,4 +1,5 @@
-﻿using ApiProjeKampi.WebUI.Dtos.ContactDtos;
+﻿using ApiProjeKampi.WebUI.Dtos.ApiSettings;
+using ApiProjeKampi.WebUI.Dtos.ContactDtos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -7,16 +8,18 @@ namespace ApiProjeKampi.WebUI.ViewComponents
     public class _DefaultContactComponentPartial : ViewComponent
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ApiSettings _apiSettings;
 
-        public _DefaultContactComponentPartial(IHttpClientFactory httpClientFactory)
+        public _DefaultContactComponentPartial(IHttpClientFactory httpClientFactory, ApiSettings apiSettings = null)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Contacts");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Contacts");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();

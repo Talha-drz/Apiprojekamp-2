@@ -1,4 +1,5 @@
 ﻿using ApiProjeKampi.WebApi.Context;
+using ApiProjeKampi.WebUI.Dtos.ApiSettings;
 using ApiProjeKampi.WebUI.Dtos.MessageDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,17 +17,18 @@ namespace ApiProjeKampi.WebUI.Controllers
     public class MessageController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ApiSettings _apiSettings;
 
-        public MessageController(IHttpClientFactory httpClientFactory)
+        public MessageController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
         {
             _httpClientFactory = httpClientFactory;
-       
+            _apiSettings = apiSettings;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> MessageList()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Messages");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Messages");
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -51,7 +53,7 @@ namespace ApiProjeKampi.WebUI.Controllers
             var jsonData = JsonConvert.SerializeObject(createMessageDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            var responseMessage = await client.PostAsync("https://localhost:7058/api/Messages", stringContent);
+            var responseMessage = await client.PostAsync(_apiSettings.BaseUrl+"/api/Messages", stringContent);
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -64,7 +66,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task<IActionResult> DeleteMessage(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            await client.DeleteAsync("https://localhost:7058/api/Messages?id=" + id);
+            await client.DeleteAsync(_apiSettings.BaseUrl+"/api/Messages?id=" + id);
             return RedirectToAction("MessageList");
         }
 
@@ -72,7 +74,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task<IActionResult> UpdateMessage(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Messages/GetMessage?id=" + id);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Messages/GetMessage?id=" + id);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetMessageByIdDto>(jsonData);
             return View(value);
@@ -83,18 +85,19 @@ namespace ApiProjeKampi.WebUI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateMessageDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            await client.PutAsync("https://localhost:7058/api/Messages/", stringContent);
+            await client.PutAsync(_apiSettings.BaseUrl+"/api/Messages/", stringContent);
             return RedirectToAction("MessageList");
         }
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> AsnwerMessageWithOpenAI(int id,string promt)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Messages/GetMessage?id=" + id);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Messages/GetMessage?id=" + id);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetMessageByIdDto>(jsonData);
             promt = value.MessageDetails;
-            var apiKey = "";
+            var apiKey = _apiSettings.ApiKey1;
             using var client2 = new HttpClient();
             client2.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
             var requestData = new
@@ -131,15 +134,17 @@ namespace ApiProjeKampi.WebUI.Controllers
 
             return View(value);
         }
+        [AllowAnonymous]
         public PartialViewResult SendMessage()
         {
             return PartialView();
         }
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> SendMessage(CreateMessageDto createMessageDto)
         {
             var client = new HttpClient();
-            var apiKey = "";
+            var apiKey = _apiSettings.ApiKey2;
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
             try
             {
@@ -195,7 +200,7 @@ namespace ApiProjeKampi.WebUI.Controllers
             var jsonData = JsonConvert.SerializeObject(createMessageDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            var responseMessage = await client2.PostAsync("https://localhost:7058/api/Messages", stringContent);
+            var responseMessage = await client2.PostAsync(_apiSettings.BaseUrl+"/api/Messages", stringContent);
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -209,7 +214,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task<IActionResult> SendAnswerMail(int MessageId, string answerAI)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Messages/GetMessage?id=" + MessageId);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Messages/GetMessage?id=" + MessageId);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetMessageByIdDto>(jsonData);
             var email = value.Email;
@@ -221,7 +226,7 @@ namespace ApiProjeKampi.WebUI.Controllers
             mail.IsBodyHtml = false;
 
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new NetworkCredential("talhadurmaz175@gmail.com", "");
+            smtp.Credentials = new NetworkCredential("talhadurmaz175@gmail.com", _apiSettings.Gmail);
             smtp.EnableSsl = true;
 
             smtp.Send(mail);

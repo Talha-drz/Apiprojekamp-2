@@ -1,9 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApiProjeKampi.WebUI.Dtos.ApiSettings;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ApiProjeKampi.WebUI.Controllers
 {
     public class AIController : Controller
     {
+        private readonly ApiSettings _apiSettings;
+
+        public AIController(ApiSettings apiSettings)
+        {
+            _apiSettings = apiSettings;
+        }
+
         public IActionResult CreateRecipeWithOpenAI()
         {
             return View();
@@ -12,7 +20,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRecipeWithOpenAI(string promt)
         {
-            var apiKey = "";
+            var apiKey = _apiSettings.ApiKey1;
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
             var requestData = new

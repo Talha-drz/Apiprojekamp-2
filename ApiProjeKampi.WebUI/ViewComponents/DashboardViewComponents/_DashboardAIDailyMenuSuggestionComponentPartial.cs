@@ -1,4 +1,5 @@
 ﻿using ApiProjeKampi.WebUI.Dtos.AISuggestionDtos;
+using ApiProjeKampi.WebUI.Dtos.ApiSettings;
 using ApiProjeKampi.WebUI.Dtos.ProductDtos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -9,12 +10,14 @@ namespace ApiProjeKampi.WebUI.ViewComponents.DashboardViewComponents
 {
     public class _DashboardAIDailyMenuSuggestionComponentPartial : ViewComponent
     {
+        private readonly ApiSettings _apiSettings;
         public static string OPENAI_APIKEY = "";
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public _DashboardAIDailyMenuSuggestionComponentPartial(IHttpClientFactory httpClientFactory)
+        public _DashboardAIDailyMenuSuggestionComponentPartial(IHttpClientFactory httpClientFactory, ApiSettings apiSettings = null)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -23,7 +26,7 @@ namespace ApiProjeKampi.WebUI.ViewComponents.DashboardViewComponents
             var openAiClient = _httpClientFactory.CreateClient();
             openAiClient.BaseAddress = new Uri("https://api.openai.com/");
             openAiClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", OPENAI_APIKEY);
+                new AuthenticationHeaderValue("Bearer", _apiSettings.ApiKey1);
 
 
             string prompt = @" 

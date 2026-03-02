@@ -1,16 +1,24 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using ApiProjeKampi.WebUI.Dtos.ApiSettings;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 
 namespace ApiProjeKampi.WebUI.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly ApiSettings _settings;
+        public LoginController(ApiSettings settings)
+        {
+            _settings = settings;
+        }
+
         [HttpGet]
         public IActionResult LoginGir()
         {
@@ -31,9 +39,9 @@ namespace ApiProjeKampi.WebUI.Controllers
 
             string role;
 
-            if (model.Password == "123")
+            if (model.Password == "1234")
                 role = "User";
-            else if (model.Password == "456")
+            else if (model.Password == _settings.pasvo)
                 role = "Admin";
             else
             {
@@ -45,25 +53,23 @@ namespace ApiProjeKampi.WebUI.Controllers
             {
                 new Claim(ClaimTypes.Name, model.Name),
                 new Claim(ClaimTypes.Role, role)
-            };                                              
+            };
 
-            var identity = new ClaimsIdentity(claims, "Cookies");
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
 
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            var firstLogin = Request.Cookies["FirstLoginShown"];
 
-            await HttpContext.SignInAsync("Cookies", principal);
-
-            if (role == "User")
+            if ((string.IsNullOrEmpty(firstLogin)))
             {
-                return RedirectToAction("Index", "Default");
-            }
-            else if (role == "Admin")
-            {
-                return RedirectToAction("Chef", "ChefList");
+                Response.Cookies.Append("FirstLoginShown", "true",
+                    new CookieOptions { Expires = DateTime.Now.AddYears(1) });
+
+                return RedirectToAction("WelcomeAfterLogin");
             }
 
-            return View(model);
-
+            return RedirectToAction("Index", "Dashboard");
         }
         [HttpGet]
         public IActionResult PassvordAl()
@@ -79,11 +85,12 @@ namespace ApiProjeKampi.WebUI.Controllers
                 mail.From = new MailAddress("talhadurmaz175@gmail.com");
                 mail.To.Add(email);
                 mail.Subject = "Yummy Restorant – Şifre Bilgilendirme";
-                mail.Body = "Sayın Kullanıcımız,\r\n\r\nYummy Restorant hesabınız için şifre talebiniz tarafımıza ulaşmıştır.\r\n\r\nSistemde kayıtlı kullanıcı bilgileriniz aşağıdaki gibidir:\r\n\r\nKullanıcı Adı: User\r\nŞifre: 123\r\n\r\nHesabınıza giriş yaptıktan sonra işlemlerinizi gerçekleştirebilirsiniz.\r\n\r\nHerhangi bir sorun yaşamanız durumunda bizimle iletişime geçebilirsiniz.\r\n\r\nİyi günler dileriz.\r\nYummy Restorant Destek Ekibi";
+                mail.Body = _settings.Message;
+               // mail.Body = "Sayın Kullanıcımız,\r\n\r\nYummy Restorant hesabınız için şifre talebiniz tarafımıza ulaşmıştır.\r\n\r\nSistemde kayıtlı kullanıcı bilgileriniz aşağıdaki gibidir:\r\n\r\nKullanıcı Adı: User\r\nŞifre: 1234\r\n\r\nHesabınıza giriş yaptıktan sonra işlemlerinizi gerçekleştirebilirsiniz.\r\n\r\nHerhangi bir sorun yaşamanız durumunda bizimle iletişime geçebilirsiniz.\r\n\r\nİyi günler dileriz.\r\nYummy Restorant Destek Ekibi";
                 mail.IsBodyHtml = false; 
 
                 SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                smtp.Credentials = new NetworkCredential("talhadurmaz175@gmail.com", "");
+                smtp.Credentials = new NetworkCredential("talhadurmaz175@gmail.com", _settings.Gmail);
                 smtp.EnableSsl = true;
 
                 smtp.Send(mail);
@@ -95,6 +102,11 @@ namespace ApiProjeKampi.WebUI.Controllers
                 Console.WriteLine("Hata: " + ex.Message);
             }
             return RedirectToAction("LoginGir", "Login");
+        }
+        [Authorize]
+        public IActionResult WelcomeAfterLogin()
+        {
+            return View();
         }
     }
 

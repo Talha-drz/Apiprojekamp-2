@@ -9,7 +9,7 @@ namespace ApiProjeKampi.WebApi.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-KRRHIQS;initial Catalog=ApiYummyDb_v2;integrated security=true;");
+            optionsBuilder.UseSqlServer("Server=.\\MSSQLSERVER2022;Database=ApiYummyDb_v2;User Id=dbadmin2;Password=qFPkxtGC_42;Encrypt=False;TrustServerCertificate=True;");
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Chef> Chefs { get; set; }

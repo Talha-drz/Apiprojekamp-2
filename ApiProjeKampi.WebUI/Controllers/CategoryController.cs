@@ -1,4 +1,5 @@
-﻿using ApiProjeKampi.WebUI.Dtos.CategoryDtos;
+﻿using ApiProjeKampi.WebUI.Dtos.ApiSettings;
+using ApiProjeKampi.WebUI.Dtos.CategoryDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,16 +11,18 @@ namespace ApiProjeKampi.WebUI.Controllers
     public class CategoryController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ApiSettings _apiSettings;
 
-        public CategoryController(IHttpClientFactory httpClientFactory)
+        public CategoryController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> CategoryList()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Categories");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Categories");
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -44,7 +47,7 @@ namespace ApiProjeKampi.WebUI.Controllers
             var jsonData = JsonConvert.SerializeObject(createCategoryDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            var responseMessage = await client.PostAsync("https://localhost:7058/api/Categories", stringContent);
+            var responseMessage = await client.PostAsync(_apiSettings.BaseUrl+"/api/Categories", stringContent);
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -57,7 +60,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            await client.DeleteAsync("https://localhost:7058/api/Categories?id=" + id);
+            await client.DeleteAsync(_apiSettings.BaseUrl+"/api/Categories?id=" + id);
             return RedirectToAction("CategoryList");
         }
 
@@ -65,7 +68,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task<IActionResult> UpdateCategory(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Categories/GetCategory?id=" + id);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Categories/GetCategory?id=" + id);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetCategoryByIdDto>(jsonData);
             return View(value);
@@ -76,14 +79,15 @@ namespace ApiProjeKampi.WebUI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateCategoryDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            await client.PutAsync("https://localhost:7058/api/Categories/",stringContent);
+            await client.PutAsync(_apiSettings.BaseUrl+"/api/Categories/",stringContent);
             return RedirectToAction("CategoryList");
         }
+        [AllowAnonymous]
         [HttpGet]
         public async Task <IActionResult> ViewCategory(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Categories/GetCategory?id=" + id);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Categories/GetCategory?id=" + id);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetCategoryByIdDto>(jsonData);
             return View(value);

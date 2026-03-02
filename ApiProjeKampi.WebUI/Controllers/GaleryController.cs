@@ -1,4 +1,4 @@
-﻿using ApiProjeKampi.WebUI.Dtos.ImageDtos;
+﻿using ApiProjeKampi.WebUI.Dtos.ApiSettings;
 using ApiProjeKampi.WebUI.Dtos.ImageDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,17 +12,19 @@ namespace ApiProjeKampi.WebUI.Controllers
     {
 
         private readonly IHttpClientFactory _httpClientFactory;
-        
-        public GaleryController(IHttpClientFactory httpClientFactory)
+        private readonly ApiSettings _apiSettings;
+
+        public GaleryController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings;
         }
 
-       
+        [AllowAnonymous]
         public async Task <IActionResult> ImageList()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Images");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Images");
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -36,7 +38,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task <IActionResult> ImageListWithEdit()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Images");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Images");
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -60,7 +62,7 @@ namespace ApiProjeKampi.WebUI.Controllers
             var jsonData = JsonConvert.SerializeObject(createImageDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            var responseMessage = await client.PostAsync("https://localhost:7058/api/Images", stringContent);
+            var responseMessage = await client.PostAsync(_apiSettings.BaseUrl+"/api/Images", stringContent);
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -73,7 +75,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task<IActionResult> DeleteImage(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            await client.DeleteAsync("https://localhost:7058/api/Images?id=" + id);
+            await client.DeleteAsync(_apiSettings.BaseUrl+"/api/Images?id=" + id);
             return RedirectToAction("ImageListWithEdit");
         }
 
@@ -81,7 +83,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task<IActionResult> UpdateImage(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Images/GetImage?id=" + id);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Images/GetImage?id=" + id);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetImageByIdDto>(jsonData);
             return View(value);
@@ -93,7 +95,7 @@ namespace ApiProjeKampi.WebUI.Controllers
             var jsonData = JsonConvert.SerializeObject(updateImageDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            var responseMessage = await client.PutAsync("https://localhost:7058/api/Images/", stringContent);
+            var responseMessage = await client.PutAsync(_apiSettings.BaseUrl+"/api/Images/", stringContent);
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -101,12 +103,9 @@ namespace ApiProjeKampi.WebUI.Controllers
             }
             var responseContent = await responseMessage.Content.ReadAsStringAsync();
 
-            // ViewBag'e tüm bilgileri koy
             ViewBag.StatusCode = (int)responseMessage.StatusCode;
             ViewBag.Reason = responseMessage.ReasonPhrase;
             ViewBag.Content = responseContent;
-
-            // Hata sayfasını veya aynı view'i dönebilirsin
             return View();
         }
     }

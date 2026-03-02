@@ -1,4 +1,5 @@
-﻿using ApiProjeKampi.WebUI.Dtos.CategoryDtos;
+﻿using ApiProjeKampi.WebUI.Dtos.ApiSettings;
+using ApiProjeKampi.WebUI.Dtos.CategoryDtos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -8,10 +9,12 @@ namespace ApiProjeKampi.WebUI.ViewComponents.DashboardViewComponents
     public class _DashboardWidgetsComponentPartial : ViewComponent
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ApiSettings _apiSettings;
 
-        public _DashboardWidgetsComponentPartial(IHttpClientFactory httpClientFactory)
+        public _DashboardWidgetsComponentPartial(IHttpClientFactory httpClientFactory, ApiSettings apiSettings = null)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -24,25 +27,25 @@ namespace ApiProjeKampi.WebUI.ViewComponents.DashboardViewComponents
             r4 = rnd.Next(1,35);
 
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/Reservations/GetTotalReservationCount");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/Reservations/GetTotalReservationCount");
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             ViewBag.v1 = jsonData;
             ViewBag.r1 = r1;
            
             var client2 = _httpClientFactory.CreateClient();
-            var responseMessage2 = await client2.GetAsync("https://localhost:7058/api/Reservations/GetTotalCustomerCount");
+            var responseMessage2 = await client2.GetAsync(_apiSettings.BaseUrl+"/api/Reservations/GetTotalCustomerCount");
             var jsonData2 = await responseMessage2.Content.ReadAsStringAsync();
             ViewBag.v2 = jsonData2;
             ViewBag.r2 = r2;
            
             var client3 = _httpClientFactory.CreateClient();
-            var responseMessage3 = await client3.GetAsync("https://localhost:7058/api/Reservations/GetPendingReservarions");
+            var responseMessage3 = await client3.GetAsync(_apiSettings.BaseUrl+"/api/Reservations/GetPendingReservarions");
             var jsonData3 = await responseMessage3.Content.ReadAsStringAsync();
             ViewBag.v3 = jsonData3;
             ViewBag.r3 = r3;
            
             var client4 = _httpClientFactory.CreateClient();
-            var responseMessage4 = await client4.GetAsync("https://localhost:7058/api/Reservations/GetApprovedReservations");
+            var responseMessage4 = await client4.GetAsync(_apiSettings.BaseUrl+"/api/Reservations/GetApprovedReservations");
             var jsonData4 = await responseMessage4.Content.ReadAsStringAsync();
             ViewBag.v4 = jsonData4;
             ViewBag.r4 = r4;

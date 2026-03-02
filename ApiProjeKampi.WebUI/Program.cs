@@ -1,7 +1,13 @@
 using ApiProjeKampi.WebApi.Context;
+using ApiProjeKampi.WebUI.Dtos.ApiSettings;
 using ApiProjeKampi.WebUI.Models;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
+builder.Services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<ApiSettings>>().Value);
+
+
 builder.Services.AddHttpClient();
 builder.Services.AddSignalR();
 builder.Services.AddHttpClient("openai", c =>
@@ -40,6 +46,6 @@ app.MapHub<ChatHub>("/chathub");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Product}/{action=ProductList}/{id?}");
+    pattern: "{controller=Login}/{action=LoginGir}/{id?}");
 
 app.Run();

@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "WelcomeAfterLogin";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Proje Kampı Sürecim</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background-color: #0f172a;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #1e293b;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 28px;
+            color: #38bdf8;
+        }
+
+        .timer-box {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #334155;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        #logoutBtn {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+            #logoutBtn:hover {
+                opacity: 0.9;
+            }
+
+        ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .divider {
+            margin: 30px 0;
+            border-top: 1px solid #334155;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="timer-box">
+            Çıkış butonu <span id="count">15</span> saniye sonra aktif olacak.
+        </div>
+
+        <h1>API Proje Kampı Sürecim</h1>
+
+        <p>
+            Bu projeye yaklaşık 9 ay önce başladım. O dönemde bilgisayarımla ilgili bir problem yaşadım ve servise göndermek zorunda kaldım.
+            Veri tabanım sıfırlandı ve tüm ilerlemem kayboldu. Bu durum moralimi bozdu, bir süre ara verdim ve kafamı topladım.
+            Daha sonra birinci dersten yeniden başladım. İlk başta istikrarı tam sağlayamasam da, 2.5 ay gibi yoğun bir sürede projeyi tamamladım.
+        </p>
+
+        <ul>
+            <li>Eksik veya geliştirilmesi gereken sayfaları tamamladım</li>
+            <li>Ekstra özellikler ekleyerek projeyi daha kullanışlı hale getirdim</li>
+            <li>Kayıt (register) ve kullanıcı giriş sayfalarını geliştirdim</li>
+            <li>MVC ve API yapısını daha düzenli ve anlaşılır kıldım</li>
+            <li>Projeye yeni eklenebilecek sayfalar için altyapıyı hazırladım</li>
+        </ul>
+
+        <p>
+            Bu süreç bana yalnızca teknik beceriler kazandırmakla kalmadı, aynı zamanda yarım bırakmamayı, istikrarı ve sabrı öğretti.
+            Her zorlukta yeniden başlamak mümkün ve doğru planla projeyi bitirmek başarıyla sonuçlanıyor.
+        </p>
+
+        <button id="logoutBtn" onclick="logout()">
+            Çıkış Yap
+        </button>
+
+        <div class="divider"></div>
+
+    </div>
+
+    <script>
+        let timeLeft = 15;
+        const countElement = document.getElementById("count");
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        const timer = setInterval(function () {
+            timeLeft--;
+            countElement.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                countElement.textContent = "0";
+                logoutBtn.style.display = "inline-block";
+            }
+        }, 1000);
+
+        function logout() {
+            window.location.href = "/Dashboard/Index";
+        }
+    </script>
+
+</body>
+</html>

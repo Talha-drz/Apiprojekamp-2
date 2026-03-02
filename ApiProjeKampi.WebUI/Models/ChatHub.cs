@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using ApiProjeKampi.WebUI.Dtos.ApiSettings;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.DiaSymReader;
 using System.IO;
 using System.Text;
@@ -9,13 +10,15 @@ namespace ApiProjeKampi.WebUI.Models
 {
     public class ChatHub : Hub
     {
+        private readonly ApiSettings _apiSettings;
         private const string apiKey = "";
         private const string modelgpt = "gpt-4o-mini";
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public ChatHub(IHttpClientFactory httpClientFactory)
+        public ChatHub(IHttpClientFactory httpClientFactory, ApiSettings apiSettings = null)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings;
         }
 
         private static readonly Dictionary<string, List<Dictionary<string, string>>> _history = new();
@@ -49,7 +52,7 @@ namespace ApiProjeKampi.WebUI.Models
         public async Task StreamOenAI(List<Dictionary<string,string>> history,CancellationToken cancellationToken)
         {
             var client = _httpClientFactory.CreateClient("openai");
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _apiSettings.ApiKey1);
             var payload = new
             {
                 model = modelgpt,

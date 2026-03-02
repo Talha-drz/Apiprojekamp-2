@@ -1,4 +1,5 @@
-﻿using ApiProjeKampi.WebUI.Dtos.CategoryDtos;
+﻿using ApiProjeKampi.WebUI.Dtos.ApiSettings;
+using ApiProjeKampi.WebUI.Dtos.CategoryDtos;
 using ApiProjeKampi.WebUI.Dtos.TestimonialDtos;
 using ApiProjeKampi.WebUI.Dtos.YummyEventDto;
 using Microsoft.AspNetCore.Authorization;
@@ -12,16 +13,18 @@ namespace ApiProjeKampi.WebUI.Controllers
     public class YummyEventController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ApiSettings _apiSettings;
 
-        public YummyEventController(IHttpClientFactory httpClientFactory)
+        public YummyEventController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> YummyEventList()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/YummyEvents");
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl+"/api/YummyEvents");
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -46,7 +49,7 @@ namespace ApiProjeKampi.WebUI.Controllers
             var jsonData = JsonConvert.SerializeObject(createYummyEventDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            var responseMessage = await client.PostAsync("https://localhost:7058/api/YummyEvents", stringContent);
+            var responseMessage = await client.PostAsync(_apiSettings.BaseUrl +"/api/YummyEvents", stringContent);
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -59,7 +62,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task<IActionResult> DeleteYummyEvent(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            await client.DeleteAsync("https://localhost:7058/api/YummyEvents?id=" + id);
+            await client.DeleteAsync(_apiSettings.BaseUrl +"/api/YummyEvents?id=" + id);
             return RedirectToAction("YummyEventList");
         }
 
@@ -67,7 +70,7 @@ namespace ApiProjeKampi.WebUI.Controllers
         public async Task<IActionResult> UpdateYummyEvent(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/YummyEvents/GetYummyEvent?id=" + id);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl +"/api/YummyEvents/GetYummyEvent?id=" + id);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetYummyEventByIdDto>(jsonData);
             return View(value);
@@ -78,14 +81,15 @@ namespace ApiProjeKampi.WebUI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateYummyEventDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            await client.PutAsync("https://localhost:7058/api/YummyEvents/", stringContent);
+            await client.PutAsync(_apiSettings.BaseUrl +"/api/YummyEvents/", stringContent);
             return RedirectToAction("YummyEventList");
         }
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> ViewYummyEvent(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7058/api/YummyEvents/GetYummyEvent?id=" + id);
+            var responseMessage = await client.GetAsync(_apiSettings.BaseUrl +"/api/YummyEvents/GetYummyEvent?id=" + id);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var value = JsonConvert.DeserializeObject<GetYummyEventByIdDto>(jsonData);
             return View(value);

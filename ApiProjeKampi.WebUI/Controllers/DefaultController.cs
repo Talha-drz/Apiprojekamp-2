@@ -1,4 +1,5 @@
-﻿using ApiProjeKampi.WebUI.Dtos.ReservationDtos;
+﻿using ApiProjeKampi.WebUI.Dtos.ApiSettings;
+using ApiProjeKampi.WebUI.Dtos.ReservationDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,10 +11,12 @@ namespace ApiProjeKampi.WebUI.Controllers
     public class DefaultController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ApiSettings _apiSettings;
 
-        public DefaultController(IHttpClientFactory httpClientFactory)
+        public DefaultController(IHttpClientFactory httpClientFactory, ApiSettings apiSettings = null)
         {
             _httpClientFactory = httpClientFactory;
+            _apiSettings = apiSettings;
         }
 
         [HttpGet]
@@ -30,7 +33,7 @@ namespace ApiProjeKampi.WebUI.Controllers
             var jsonData = JsonConvert.SerializeObject(createReservationDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            var responseMessage = await client.PostAsync("https://localhost:7058/api/Reservations", stringContent);
+            var responseMessage = await client.PostAsync(_apiSettings.BaseUrl+"/api/Reservations", stringContent);
 
             if (responseMessage.IsSuccessStatusCode)
             {
