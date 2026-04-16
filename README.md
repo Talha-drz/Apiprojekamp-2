@@ -1,4 +1,4 @@
-# 🍽️ ApiProjeKampi
+# 🍽️ YUMMY ApiProjeKampi
 
 Modern bir **Restoran Yönetim Sistemi** örneği.  
 Bu proje, **ASP.NET Core Web API** ile geliştirilmiş bir backend servisi ve **Razor Pages** tabanlı bir admin panel içermektedir.  
