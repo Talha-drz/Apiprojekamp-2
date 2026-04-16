@@ -58,11 +58,7 @@ Projede OpenAI API kullanılarak:
 
 <br><br>
 
-<img width="100%" alt="image" src="https://github.com/user-attachments/assets/886aab04-a892-4b08-a01c-b11b000c40ac" />
-
-<br><br>
-
-<img width="100%" alt="image" src="https://github.com/user-attachments/assets/6fd5f717-e9ee-4cef-89be-02f9df7af0c5" />
+<img width="1919" height="1079" alt="Ekran görüntüsü 2026-04-16 180737" src="https://github.com/user-attachments/assets/225e5b60-2611-4eea-91c7-77a31017bc24" />
 
 <br><br>
 
@@ -83,6 +79,14 @@ Projede OpenAI API kullanılarak:
 <br><br>
 
 <img width="100%" alt="image" src="https://github.com/user-attachments/assets/c7605d8f-7e5a-419e-8379-d8595a8890e4" />
+
+<br><br>
+
+<img width="1899" height="1068" alt="Ekran görüntüsü 2026-04-16 180616" src="https://github.com/user-attachments/assets/c7c827e4-d799-4d0a-b34c-081476b63a70" />
+
+<br><br>
+
+<img width="1919" height="1078" alt="Ekran görüntüsü 2026-04-16 180313" src="https://github.com/user-attachments/assets/240c820e-e8a7-44cb-9ed7-0efda5881403" />
 
 <br><br>
 
